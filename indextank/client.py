@@ -164,7 +164,7 @@ class IndexClient(object):
         """
         return _request('PUT', self.__docs_url(), data=documents)
 
-    def add_document(self, docid, fields, variables=None):
+    def add_document(self, docid, fields, variables=None, categories=None):
         """
         Indexes a document for the given docid and fields.
         Arguments:
@@ -172,10 +172,13 @@ class IndexClient(object):
             field: map with the document fields
             variables (optional): map integer -> float with values for variables that can
                                   later be used in scoring functions during searches. 
+            categories (optional): a dict string->string with the value for each category for the document
         """
         data = {'docid': docid, 'fields': fields}
         if variables is not None:
             data['variables'] = variables
+        if categories is not None:
+            data['categories'] = categories
         _request('PUT', self.__docs_url(), data=data)
         
     def delete_document(self, docid):
